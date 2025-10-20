@@ -1,6 +1,8 @@
 package com.nhnacademy.byeol23backend.memberset.member.dto;
 
 import com.nhnacademy.byeol23backend.memberset.member.domain.Member;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -8,6 +10,8 @@ import java.time.LocalDate;
 /*
 - 회원에 대한 정보를 반환할 때 필요한 데이터를 모아 놓은 객체입니다.
 */
+@NoArgsConstructor
+@Getter
 public class MemberResponseDto {
     private String loginId;
     private String memberName;

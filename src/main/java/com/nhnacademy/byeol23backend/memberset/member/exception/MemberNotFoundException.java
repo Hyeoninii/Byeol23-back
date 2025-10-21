@@ -5,5 +5,6 @@ package com.nhnacademy.byeol23backend.memberset.member.exception;
  */
 public class MemberNotFoundException extends RuntimeException {
     public MemberNotFoundException(String s) {
+        super(s);
     }
 }

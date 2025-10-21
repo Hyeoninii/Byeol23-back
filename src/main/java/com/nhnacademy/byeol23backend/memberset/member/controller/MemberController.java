@@ -10,21 +10,20 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/api/members")
 public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
     public ResponseEntity<MemberResponseDto> createMember(@RequestBody Member member) {
-        Member createdMember = memberService.createMember(member);
+        MemberResponseDto createdMember = memberService.createMember(member);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new MemberResponseDto(createdMember));
+                .body(createdMember);
     }
 
     @GetMapping("/{memberId}")
     public ResponseEntity<MemberResponseDto> getMember(@PathVariable Long memberId) {
-        Member member = memberService.getMember(memberId);
-        return ResponseEntity.ok(new MemberResponseDto(member));
+        return ResponseEntity.ok(memberService.getMember(memberId));
     }
 
     @DeleteMapping("/{memberId}")
@@ -37,8 +36,8 @@ public class MemberController {
     public ResponseEntity<MemberResponseDto> updateMember(@PathVariable Long memberId, @RequestBody Member member) {
         member.setMemberId(memberId);
         memberService.updateMember(member);
-        Member updatedMember = memberService.getMember(memberId);
-        return ResponseEntity.ok(new MemberResponseDto(updatedMember));
+        MemberResponseDto updatedMember = memberService.getMember(memberId);
+        return ResponseEntity.ok(updatedMember);
     }
 
 }

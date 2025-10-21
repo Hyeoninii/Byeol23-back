@@ -1,13 +1,11 @@
 package com.nhnacademy.byeol23backend.memberset.member.dto;
 
 import com.nhnacademy.byeol23backend.memberset.member.domain.Member;
-import lombok.Getter;
 
-@Getter
-public class MemberResponseDto {
+public class MemberRequestDto {
     private final Member member;
 
-    public MemberResponseDto(Member member) {
+    public MemberRequestDto(Member member) {
         this.member = member;
     }
 }

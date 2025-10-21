@@ -1,6 +1,7 @@
 package com.nhnacademy.byeol23backend.memberset.member.service.impl;
 
 import com.nhnacademy.byeol23backend.memberset.member.domain.Member;
+import com.nhnacademy.byeol23backend.memberset.member.dto.MemberResponseDto;
 import com.nhnacademy.byeol23backend.memberset.member.exception.MemberNotFoundException;
 import com.nhnacademy.byeol23backend.memberset.member.repository.MemberRepository;
 import com.nhnacademy.byeol23backend.memberset.member.service.MemberService;
@@ -17,40 +18,47 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 회원을 저장하는 함수
+     *
      * @param member
-     * @return member
+     * @return memberCreateResponseDto
      */
     @Override
-    public Member createMember(Member member) {
-        memberRepository.save(member);
+    public MemberResponseDto createMember(Member member) {
+        Member newMember = memberRepository.save(member);
         log.info("멤버 생성을 완료했습니다.{}", member.toString());
-        return member;
+        return new MemberResponseDto(newMember);
     }
 
     /**
      * 회원 정보를 수정하는 함수
+     *
      * @param member
      * @return void
      */
     @Override
     @Transactional
-    public void updateMember(Member member) {
+    public MemberResponseDto updateMember(Member member) {
         long memberId = member.getMemberId();
-        Member oldMember = getMember(memberId);
-        oldMember.update(member);
+        Member oldMember = findMemberById(memberId);
+        Member newMember = oldMember.update(member);
 
         log.info("{}를 업데이트 했습니다.", memberId);
+        return new MemberResponseDto(newMember);
     }
 
     /**
      * 회원을 조회하는 함수
+     *
      * @param memberId
      * @return member
      */
     @Override
-    public Member getMember(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(memberId + "에 해당하는 멤버를 찾을 수 없습니다."));
+    public MemberResponseDto getMember(Long memberId) {
+        Member target = findMemberById(memberId);
+
+        log.info("{}회원 조회", target.toString());
+
+        return new MemberResponseDto(target);
     }
 
     /**
@@ -62,10 +70,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public void deleteMember(Long memberId) {
-        Member target = getMember(memberId);
+        Member target = findMemberById(memberId);
         target.setStatus("탈퇴");
-
         log.info("{}가 삭제되었습니다.", memberId);
     }
 
+    private Member findMemberById(Long memberId) {
+       return memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId + "에 해당하는 멤버를 찾을 수 없습니다."));
+    }
 }

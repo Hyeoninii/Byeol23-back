@@ -1,4 +1,4 @@
 package com.nhnacademy.byeol23backend.memberset.member.dto;
 
-public class MemberUpdateDto {
+public class MemberListResponseDto {
 }

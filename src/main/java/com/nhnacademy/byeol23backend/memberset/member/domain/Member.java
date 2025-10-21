@@ -71,7 +71,7 @@ public class Member {
 				+ "닉네임: " + this.nickname;
 	}
 
-	public void update(Member member) {
+	public Member update(Member member) {
 		this.loginId = member.getLoginId();
 		this.memberName = member.getMemberName();
 		this.nickname = member.getNickname();
@@ -80,6 +80,7 @@ public class Member {
 		this.birthday = member.getBirthday();
 		this.status = member.getStatus();
 		this.currentPoint = member.getCurrentPoint();
+		return member;
 	}
 
 	public void updatePassword(String newPassword) {
